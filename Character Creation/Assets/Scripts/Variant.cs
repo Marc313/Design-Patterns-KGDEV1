@@ -7,5 +7,5 @@ public class Variant
 {
     public Mesh mesh;
     public Material material;
-    public Image image;
+    public Sprite sprite;
 }
