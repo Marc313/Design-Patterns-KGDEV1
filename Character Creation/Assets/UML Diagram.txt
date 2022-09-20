@@ -1,0 +1,44 @@
+@startuml
+
+title Character Creator
+
+class CharacterCustomizable {
+  MeshFilter filter
+  Meshrenderer renderer
+  sMeshOptions meshOptions
+  int currentFeatureIndex
+  +void UpdateMesh()
+}
+
+class sMeshOptions {
+Scriptable Object
+Mesh[] meshes
+Later maybe Models
+}
+
+struct Variant {
+Mesh mesh
+Material material
+Image logo
+}
+
+class CharacterData {
+  Variant Hair;
+  Variant Shirt;
+  Variant Pants;
+}
+
+class Character {
+  CharacterData;
+}
+
+interface IFactory
+class CharacterFactory 
+
+Variant *-right-- sMeshOptions
+sMeshOptions *-right-- CharacterCustomizable
+CharacterData *-right-- Character
+Character *-down-- CharacterFactory: Creates
+CharacterFactory *-left-- IFactory
+
+@enduml

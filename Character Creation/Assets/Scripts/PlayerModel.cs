@@ -12,6 +12,5 @@ public class PlayerModel : MonoBehaviour
 
     private void Start()
     {
-        meshFilters[0].UpdateMesh(mesh);
     }
 }

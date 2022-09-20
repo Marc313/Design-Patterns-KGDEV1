@@ -10,8 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23d8936c983963d4fbadc37e2535a7d8, type: 3}
-  m_Name: Meshes
+  m_Name: Hairs
   m_EditorClassIdentifier: 
-  hairMeshes: []
-  shirtMeshes: []
-  pantsMeshes: []
+  variants: []
