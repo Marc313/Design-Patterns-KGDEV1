@@ -15,13 +15,13 @@ MonoBehaviour:
   variants:
   - mesh: {fileID: 1566869398266706483, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: -5386419219820579439, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    sprite: {fileID: 21300000, guid: 2af027e35744b474e92240d2cccea9a2, type: 3}
   - mesh: {fileID: 1566869398266706483, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: 2100000, guid: 39739f6d2ce693045bf8e02d3d3a1490, type: 2}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 2af027e35744b474e92240d2cccea9a2, type: 3}
   - mesh: {fileID: 1566869398266706483, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: 5506878203222353921, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 2af027e35744b474e92240d2cccea9a2, type: 3}
   - mesh: {fileID: 1566869398266706483, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: 2100000, guid: 01f774e40a240dd4eb66c2164feea2ee, type: 2}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 2af027e35744b474e92240d2cccea9a2, type: 3}
