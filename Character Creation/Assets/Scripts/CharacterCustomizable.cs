@@ -6,16 +6,17 @@ public class CharacterCustomizable : MonoBehaviour
 {
     public sMeshList meshList;
 
-    [SerializeField] private GameObject UISet;
-    private Button leftButton;
-    private Button rightButton;
-    private Image leftDisplay;
-    private Image rightDisplay;
-
+    //private GameObject UISet;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
+    //private Image leftDisplay;
+    //private Image rightDisplay;
 
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private int currentMeshIndex;
+
+    public enum Direction { Next, Previous};
 
     private void Awake()
     {
@@ -29,9 +30,9 @@ public class CharacterCustomizable : MonoBehaviour
         UpdateVariantModelAndMaterial(meshList.variants[0]);
     }
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
-        ParseUI();
+        //ParseUI();
         leftButton?.onClick.AddListener(previousVariants);
         rightButton?.onClick.AddListener(nextVariants);
     }
@@ -40,6 +41,16 @@ public class CharacterCustomizable : MonoBehaviour
     {
         leftButton?.onClick.RemoveListener(previousVariants);
         rightButton?.onClick.RemoveListener(nextVariants);
+    }*/
+
+    private void OnEnable()
+    {
+        EventSystem.Subscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.Unsubscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
     }
 
     private void Update()
@@ -52,18 +63,34 @@ public class CharacterCustomizable : MonoBehaviour
 
     private void previousVariants()
     {
-        if (meshList == null || meshList.variants.Count == 0) return;
-
-        currentMeshIndex = ((currentMeshIndex - 1 + meshList.variants.Count) % meshList.variants.Count);
-        Variant currentMesh = meshList.variants[currentMeshIndex];
-        UpdateVariantModelAndMaterial(currentMesh);
+        switchVariant(Direction.Previous);
     }
 
     private void nextVariants()
     {
+        switchVariant(Direction.Next);
+    }
+
+    private void CheckButtonClick(EventSystem.EventName eventName, object _button)
+    {
+        if (_button.Equals(leftButton))
+        {
+            previousVariants();
+        } 
+        else if (_button.Equals(rightButton))
+        {
+            nextVariants();
+        }
+    }
+
+    private void switchVariant(Direction direction)
+    {
         if (meshList == null || meshList.variants.Count == 0) return;
 
-        currentMeshIndex = ((currentMeshIndex + 1) % meshList.variants.Count);
+        int variantCount = meshList.variants.Count;
+        int directionValue = direction == Direction.Next ? 1: -1;
+
+        currentMeshIndex = ((currentMeshIndex + directionValue + variantCount) % meshList.variants.Count);
         Variant currentMesh = meshList.variants[currentMeshIndex];
         UpdateVariantModelAndMaterial(currentMesh);
     }
@@ -73,10 +100,10 @@ public class CharacterCustomizable : MonoBehaviour
         meshFilter.mesh = _variant.mesh;
         meshRenderer.material = _variant.material;
 
-        UpdateUISet();
+        //UpdateUISet();
     }
 
-    private void ParseUI()
+    /*private void ParseUI()
     {
         Identifiable[] uiElements = UISet.GetComponentsInChildren<Identifiable>();
         foreach (Identifiable id in uiElements)
@@ -97,11 +124,11 @@ public class CharacterCustomizable : MonoBehaviour
                     break;
             }
         }
-    }
+    }*/
 
-    private void UpdateUISet()
+   /* private void UpdateUISet()
     {
         leftDisplay.sprite = meshList.variants[(currentMeshIndex - 1 + meshList.variants.Count) % meshList.variants.Count].sprite;
         rightDisplay.sprite = meshList.variants[(currentMeshIndex + 1) % meshList.variants.Count].sprite;
-    }
+    }*/
 }
