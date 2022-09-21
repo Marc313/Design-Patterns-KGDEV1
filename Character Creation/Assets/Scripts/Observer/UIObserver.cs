@@ -17,6 +17,6 @@ public class UIObserver : MonoBehaviour
 
     public void SectionDoneClicked()
     {
-        EventSystem.RaiseEvent(EventSystem.EventName.SECTION_DONE, button);
+        EventSystem.RaiseEvent(EventSystem.EventName.CHARACTER_DONE, button);
     }
 }

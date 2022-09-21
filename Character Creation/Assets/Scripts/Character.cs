@@ -10,7 +10,10 @@ public static class Character
         {
             charactureFeatures[_custom] = _variant;
         }
-        charactureFeatures.Add(_custom, _variant);
+        else
+        {
+            charactureFeatures.Add(_custom, _variant);
+        }
     }
 
     public static void LoadFeatures()

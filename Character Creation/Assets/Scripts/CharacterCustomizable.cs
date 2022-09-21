@@ -27,7 +27,14 @@ public class CharacterCustomizable : MonoBehaviour
     private void Start()
     {
         //ParseUI();
-        UpdateVariantModelAndMaterial(meshList.variants[0]);
+        LoadSavedVariant();
+    }
+
+    private void LoadSavedVariant()
+    {
+        int savedVariantIndex = meshList.savedVariantIndex;
+        Variant savedVariant = meshList.variants[savedVariantIndex];
+        UpdateVariantModelAndMaterial(savedVariant);
     }
 
     /*private void OnEnable()
@@ -55,37 +62,29 @@ public class CharacterCustomizable : MonoBehaviour
         EventSystem.Unsubscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
-    private void Update()
+    private void PreviousVariants()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            nextVariants();
-        }
+        SwitchVariant(Direction.Previous);
     }
 
-    private void previousVariants()
+    private void NextVariants()
     {
-        switchVariant(Direction.Previous);
-    }
-
-    private void nextVariants()
-    {
-        switchVariant(Direction.Next);
+        SwitchVariant(Direction.Next);
     }
 
     private void CheckButtonClick(EventSystem.EventName eventName, object _button)
     {
         if (_button.Equals(leftButton))
         {
-            previousVariants();
+            PreviousVariants();
         } 
         else if (_button.Equals(rightButton))
         {
-            nextVariants();
+            NextVariants();
         }
     }
 
-    private void switchVariant(Direction direction)
+    private void SwitchVariant(Direction direction)
     {
         if (meshList == null || meshList.variants.Count == 0) return;
 
@@ -107,7 +106,8 @@ public class CharacterCustomizable : MonoBehaviour
 
     private void ApplyVariant(EventSystem.EventName eventName, object _object)
     {
-        Character.SaveFeature(this, currentVariant);
+        meshList.savedVariantIndex = currentMeshIndex;
+        //Character.SaveFeature(this, currentVariant);
     }
 
     public void LoadVariant(Variant _variant)
