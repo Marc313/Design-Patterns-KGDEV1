@@ -36,6 +36,5 @@ public class CreatorManager : MonoBehaviour
 
         // Hoe zorg je dat deze later gaat?
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        Character.LoadFeatures();
     }
 }
