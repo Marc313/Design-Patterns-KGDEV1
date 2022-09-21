@@ -7,7 +7,6 @@ public class CreatorManager : MonoBehaviour
 
     public void Start()
     {
-        DontDestroyOnLoad(this);
     }
 
     private void OnEnable()
@@ -34,7 +33,6 @@ public class CreatorManager : MonoBehaviour
     {
         int directionValue = dir == Direction.Next ? 1 : -1;
 
-        // Hoe zorg je dat deze later gaat?
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

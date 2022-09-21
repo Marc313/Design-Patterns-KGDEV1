@@ -52,22 +52,22 @@ public class CharacterCustomizable : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem.Subscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
+        //EventSystem.Subscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
         EventSystem.Subscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
     private void OnDisable()
     {
-        EventSystem.Unsubscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
+        //EventSystem.Unsubscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
         EventSystem.Unsubscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
-    private void PreviousVariants()
+    public void PreviousVariants()
     {
         SwitchVariant(Direction.Previous);
     }
 
-    private void NextVariants()
+    public void NextVariants()
     {
         SwitchVariant(Direction.Next);
     }
