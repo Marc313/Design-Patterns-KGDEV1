@@ -7,7 +7,8 @@ public static class EventSystem
     public enum EventName
     {
         BUTTON_CLICK,
-        SECTION_DONE
+        SECTION_DONE,
+        CHARACTER_DONE
     }
 
     private static Dictionary<EventName, List<EventCallback>> eventRegister = new Dictionary<EventName, List<EventCallback>>();

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +14,7 @@ public class CharacterCustomizable : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private int currentMeshIndex;
+    private Variant currentVariant;
 
     public enum Direction { Next, Previous};
 
@@ -46,11 +46,13 @@ public class CharacterCustomizable : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.Subscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
+        EventSystem.Subscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
     private void OnDisable()
     {
         EventSystem.Unsubscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
+        EventSystem.Unsubscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
     private void Update()
@@ -88,11 +90,11 @@ public class CharacterCustomizable : MonoBehaviour
         if (meshList == null || meshList.variants.Count == 0) return;
 
         int variantCount = meshList.variants.Count;
-        int directionValue = direction == Direction.Next ? 1: -1;
+        int directionValue = direction == Direction.Next ? 1 : -1;
 
         currentMeshIndex = ((currentMeshIndex + directionValue + variantCount) % meshList.variants.Count);
-        Variant currentMesh = meshList.variants[currentMeshIndex];
-        UpdateVariantModelAndMaterial(currentMesh);
+        currentVariant = meshList.variants[currentMeshIndex];
+        UpdateVariantModelAndMaterial(currentVariant);
     }
 
     public void UpdateVariantModelAndMaterial(Variant _variant)
@@ -101,6 +103,17 @@ public class CharacterCustomizable : MonoBehaviour
         meshRenderer.material = _variant.material;
 
         //UpdateUISet();
+    }
+
+    private void ApplyVariant(EventSystem.EventName eventName, object _object)
+    {
+        Character.SaveFeature(this, currentVariant);
+    }
+
+    public void LoadVariant(Variant _variant)
+    {
+        currentVariant = _variant;
+        UpdateVariantModelAndMaterial(_variant);
     }
 
     /*private void ParseUI()
@@ -126,9 +139,9 @@ public class CharacterCustomizable : MonoBehaviour
         }
     }*/
 
-   /* private void UpdateUISet()
-    {
-        leftDisplay.sprite = meshList.variants[(currentMeshIndex - 1 + meshList.variants.Count) % meshList.variants.Count].sprite;
-        rightDisplay.sprite = meshList.variants[(currentMeshIndex + 1) % meshList.variants.Count].sprite;
-    }*/
+    /* private void UpdateUISet()
+     {
+         leftDisplay.sprite = meshList.variants[(currentMeshIndex - 1 + meshList.variants.Count) % meshList.variants.Count].sprite;
+         rightDisplay.sprite = meshList.variants[(currentMeshIndex + 1) % meshList.variants.Count].sprite;
+     }*/
 }
