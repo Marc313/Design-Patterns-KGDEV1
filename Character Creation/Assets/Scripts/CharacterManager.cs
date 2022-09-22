@@ -1,34 +1,50 @@
-/*using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour, ICommandStackOwner<IReversibleCommand<CharacterCustomizable>>
+public class CharacterManager : MonoBehaviour, ICommandStackOwner<IReversibleCommand>
 {
     [SerializeField] private CharacterCustomizable[] customizables;
 
-    private InputHandler<ICommand<CharacterCustomizable>> inputHandler;
+    private InputHandler<ICommand> inputHandler;
 
-    public Stack<IReversibleCommand<CharacterCustomizable>> history { get; private set; }
+    public Stack<IReversibleCommand> history { get; private set; } = new Stack<IReversibleCommand>();
 
     private void Awake()
     {
-        inputHandler = new InputHandler<ICommand<CharacterCustomizable>>();
+        inputHandler = new InputHandler<ICommand>();
+        InjectSelfOnCustomizable();
     }
 
     private void Start()
     {
-        inputHandler.AddCommand(KeyCode.U, new UndoCommand<CharacterCustomizable>(this));
+        inputHandler.AddCommand(KeyCode.U, new UndoCommand(this));
     }
 
     private void Update()
     {
-        ICommand<CharacterCustomizable> command = inputHandler.HandleInput();
-        command?.Execute(customizables[0]);
+        ICommand command = inputHandler.HandleInput();
+        command?.Execute();
     }
 
     public void Undo()
     {
-        IReversibleCommand<CharacterCustomizable> command = history.Pop();
-        command.Undo(customizables[0]);
+        if (history.Count > 0)
+        {
+            IReversibleCommand command = history.Pop();
+            command.Undo();
+        }
+    }
+
+    public void AddCommandToHistory(IReversibleCommand command)
+    {
+        history.Push(command);
+    }
+
+    private void InjectSelfOnCustomizable()
+    {
+        foreach(CharacterCustomizable cc in customizables)
+        {
+            cc.InjectStackOwner(this);
+        }
     }
 }
-*/

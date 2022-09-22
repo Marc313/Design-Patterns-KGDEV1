@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversibleCommand<CharacterCustomizable>>
+public class CharacterCustomizable : MonoBehaviour
 {
     public enum Direction { Next, Previous };
-    public Stack<IReversibleCommand<CharacterCustomizable>> history { get; private set; }
 
     [SerializeField] private sMeshList meshList;
     [SerializeField] private Button leftButton;
@@ -15,8 +13,9 @@ public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversib
     private MeshRenderer meshRenderer;
     private int currentMeshIndex;
     private Variant currentVariant;
+
+    private ICommandStackOwner<IReversibleCommand> commandStackOwner;
     private UICommandHandler<CharacterCustomizable> commandHandler;
-    private InputHandler<ICommand<CharacterCustomizable>> inputHandler;
 
     private void Awake()
     {
@@ -24,63 +23,49 @@ public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversib
         meshRenderer = GetComponent<MeshRenderer>();
 
         commandHandler = new UICommandHandler<CharacterCustomizable>(this);
-
-        history = new Stack<IReversibleCommand<CharacterCustomizable>>();
-        inputHandler = new InputHandler<ICommand<CharacterCustomizable>>();
     }
 
     private void Start()
     {
-        //ParseUI();
         LoadSavedVariant();
 
-        commandHandler.AddCommand(leftButton, new PreviousVariantCommand());
-        commandHandler.AddCommand(rightButton, new NextVariantCommand());
-        inputHandler.AddCommand(KeyCode.U, new UndoCommand<CharacterCustomizable>(this));
-    }
-
-    private void Update()
-    {
-        ICommand<CharacterCustomizable> command = inputHandler.HandleInput();
-        command?.Execute(this);
-    }
-
-    private void LoadSavedVariant()
-    {
-        int savedVariantIndex = meshList.savedVariantIndex;
-        Variant savedVariant = meshList.variants[savedVariantIndex];
-        UpdateVariantModelAndMaterial(savedVariant);
+        commandHandler.AddCommand(leftButton, new PreviousVariantCommand(this));
+        commandHandler.AddCommand(rightButton, new NextVariantCommand(this));
     }
 
     private void OnEnable()
     {
-        //EventSystem.Subscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
         EventSystem.Subscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
     private void OnDisable()
     {
-        //EventSystem.Unsubscribe(EventSystem.EventName.BUTTON_CLICK, CheckButtonClick);
         EventSystem.Unsubscribe(EventSystem.EventName.CHARACTER_DONE, ApplyVariant);
     }
 
-    public void PreviousVariants()
+    public void InjectStackOwner(ICommandStackOwner<IReversibleCommand> _stackOwner)
     {
-        history.Push(new PreviousVariantCommand());
+        commandStackOwner = _stackOwner;
+    }
+
+    public void PreviousVariants(bool _addToHistory = true)
+    {
+        if (_addToHistory)
+        {
+            commandStackOwner.history.Push(new PreviousVariantCommand(this));
+        }
+
         SwitchVariant(Direction.Previous);
     }
 
-    public void NextVariants()
+    public void NextVariants(bool _addToHistory = true)
     {
-        history.Push(new NextVariantCommand());
-        SwitchVariant(Direction.Next);
-    }
+        if (_addToHistory)
+        {
+            commandStackOwner.history.Push(new NextVariantCommand(this));
+        }
 
-    public void Undo()
-    {
-        IReversibleCommand<CharacterCustomizable> command = history.Pop();
-        command.Undo(this);
-        // Push to redo stack
+        SwitchVariant(Direction.Next);
     }
 
     private void SwitchVariant(Direction direction)
@@ -95,19 +80,14 @@ public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversib
         UpdateVariantModelAndMaterial(currentVariant);
     }
 
-    private void CheckButtonClick(EventSystem.EventName eventName, object _button)
+    private void LoadSavedVariant()
     {
-        if (_button.Equals(leftButton))
-        {
-            PreviousVariants();
-        }
-        else if (_button.Equals(rightButton))
-        {
-            NextVariants();
-        }
+        int savedVariantIndex = meshList.savedVariantIndex;
+        Variant savedVariant = meshList.variants[savedVariantIndex];
+        UpdateVariantModelAndMaterial(savedVariant);
     }
 
-    public void UpdateVariantModelAndMaterial(Variant _variant)
+    private void UpdateVariantModelAndMaterial(Variant _variant)
     {
         meshFilter.mesh = _variant.mesh;
         meshRenderer.material = _variant.material;
@@ -117,39 +97,4 @@ public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversib
     {
         meshList.savedVariantIndex = currentMeshIndex;
     }
-
-    /*public void LoadVariant(Variant _variant)
-    {
-        currentVariant = _variant;
-        UpdateVariantModelAndMaterial(_variant);
-    }*/
-
-    /*private void ParseUI()
-    {
-        Identifiable[] uiElements = UISet.GetComponentsInChildren<Identifiable>();
-        foreach (Identifiable id in uiElements)
-        {
-            switch(id.ID)
-            {
-                case 0:
-                    leftDisplay = id.GetComponent<Image>();
-                    break;
-                case 1: 
-                    rightDisplay = id.GetComponent<Image>();
-                    break;
-                case 2:
-                    leftButton = id.GetComponent<Button>();
-                    break;
-                case 3:
-                    rightButton = id.GetComponent<Button>();
-                    break;
-            }
-        }
-    }*/
-
-    /* private void UpdateUISet()
-     {
-         leftDisplay.sprite = meshList.variants[(currentMeshIndex - 1 + meshList.variants.Count) % meshList.variants.Count].sprite;
-         rightDisplay.sprite = meshList.variants[(currentMeshIndex + 1) % meshList.variants.Count].sprite;
-     }*/
 }

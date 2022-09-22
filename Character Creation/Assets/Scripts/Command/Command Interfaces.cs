@@ -25,4 +25,5 @@ public interface ICommandStackOwner<T>
     Stack<T> history { get; }
 
     public void Undo();
+    public void AddCommandToHistory(T command);
 }

@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class UndoCommand<T> : ICommand<T>
+public class UndoCommand : ICommand
 {
-    ICommandStackOwner<IReversibleCommand<T>> owner;
+    ICommandStackOwner<IReversibleCommand> owner;
 
-    public UndoCommand(ICommandStackOwner<IReversibleCommand<T>> _owner)
+    public UndoCommand(ICommandStackOwner<IReversibleCommand> _owner)
     {
         owner = _owner;
     }
 
-    public void Execute(T t)
+    public void Execute()
     {
         Debug.Log("U pressed");
         owner.Undo();

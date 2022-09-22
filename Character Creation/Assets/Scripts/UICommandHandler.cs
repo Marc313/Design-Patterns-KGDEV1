@@ -3,20 +3,20 @@ using UnityEngine.UI;
 
 public class UICommandHandler<T>
 {
-    private Dictionary<Button, List<IReversibleCommand<T>>> commands;
+    private Dictionary<Button, List<IReversibleCommand>> commands;
     private T customizable;
 
     public UICommandHandler(T _customizable)
     {
-        commands = new Dictionary<Button, List<IReversibleCommand<T>>>();
+        commands = new Dictionary<Button, List<IReversibleCommand>>();
         customizable = _customizable;
     }
 
-    public void AddCommand(Button button, IReversibleCommand<T> command)
+    public void AddCommand(Button button, IReversibleCommand command)
     {
         if (commands.ContainsKey(button) && commands[button] == null)
         {
-            commands[button] = new List<IReversibleCommand<T>>();
+            commands[button] = new List<IReversibleCommand>();
         }
         else if (commands.ContainsKey(button) && commands[button] != null)
         {
@@ -24,10 +24,10 @@ public class UICommandHandler<T>
         }
         else
         {
-            commands.Add(button, new List<IReversibleCommand<T>>());
+            commands.Add(button, new List<IReversibleCommand>());
         }
 
-        button.onClick.AddListener(() => command.Execute(customizable));
+        button.onClick.AddListener(() => command.Execute());
     }
 
     /*private void AddCommandsAsButtonListener()

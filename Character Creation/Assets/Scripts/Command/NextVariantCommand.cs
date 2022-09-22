@@ -1,12 +1,19 @@
-public class NextVariantCommand : IReversibleCommand<CharacterCustomizable>
+public class NextVariantCommand : IReversibleCommand
 {
-    public void Execute(CharacterCustomizable customizable)
+    CharacterCustomizable customizable;
+
+    public NextVariantCommand(CharacterCustomizable _customizable)
+    {
+        customizable = _customizable;
+    }
+
+    public void Execute()
     {
         customizable.NextVariants();
     }
 
-    public void Undo(CharacterCustomizable customizable)
+    public void Undo()
     {
-        customizable.PreviousVariants();
+        customizable.PreviousVariants(false);
     }
 }
