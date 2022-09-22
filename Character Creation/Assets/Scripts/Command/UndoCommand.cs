@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UndoCommand : ICommand
 {
-    ICommandStackOwner<IReversibleCommand> owner;
+    private ICommandStackOwner<IReversibleCommand> owner;
 
     public UndoCommand(ICommandStackOwner<IReversibleCommand> _owner)
     {
@@ -11,7 +11,6 @@ public class UndoCommand : ICommand
 
     public void Execute()
     {
-        Debug.Log("U pressed");
         owner.Undo();
     }
 }

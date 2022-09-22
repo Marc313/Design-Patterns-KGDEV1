@@ -5,10 +5,6 @@ public class CreatorManager : MonoBehaviour
 {
     public enum Direction { Next, Previous };
 
-    public void Start()
-    {
-    }
-
     private void OnEnable()
     {
         EventSystem.Subscribe(EventSystem.EventName.CHARACTER_DONE, LoadNextScene);
@@ -19,6 +15,7 @@ public class CreatorManager : MonoBehaviour
         EventSystem.Subscribe(EventSystem.EventName.CHARACTER_DONE, LoadNextScene);
     }
 
+    // Unused Function
     public void LoadPreviousScene()
     {
         SwitchScene(Direction.Previous);

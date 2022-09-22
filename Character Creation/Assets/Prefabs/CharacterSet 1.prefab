@@ -547,19 +547,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403723244071586}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403723244071612}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403723244071612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,19 +681,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403723367190606}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403723367190600}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403723367190600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,19 +917,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403723962647483}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403723962647477}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403723962647477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,19 +1051,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403723995033503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403723995033497}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403723995033497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1233,19 +1185,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403724116582559}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403724116582553}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403724116582553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1481,19 +1421,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6118403725307741536}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6118403725307741538}
-        m_TargetAssemblyTypeName: UIObserver, Assembly-CSharp
-        m_MethodName: PijltjeClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6118403725307741538
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,13 +10,8 @@ public class UIObserver : MonoBehaviour
         button = GetComponent<Button>();
     }
 
-    public void PijltjeClicked()
+    public void CharacterDoneClicked()
     {
-        //EventSystem.RaiseEvent(EventSystem.EventName.BUTTON_CLICK, button);
-    }
-
-    public void SectionDoneClicked()
-    {
-        //EventSystem.RaiseEvent(EventSystem.EventName.CHARACTER_DONE, button);
+        EventSystem.RaiseEvent(EventSystem.EventName.CHARACTER_DONE, button);
     }
 }

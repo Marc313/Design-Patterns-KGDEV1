@@ -15,14 +15,14 @@ MonoBehaviour:
   variants:
   - mesh: {fileID: -8261066796910302577, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: -4288583467269203127, guid: c766704fab9d3e84d9cf3c7894602421, type: 3}
+  - mesh: {fileID: -8261066796910302577, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
+    material: {fileID: 2100000, guid: 51cc99d74d8842643bf310ff432bf919, type: 2}
+  - mesh: {fileID: -8261066796910302577, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
+    material: {fileID: 2100000, guid: 3f6291f7bc2930b48ac51561bf391a35, type: 2}
+  - mesh: {fileID: -6695200311951029103, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
+    material: {fileID: 2100000, guid: 51cc99d74d8842643bf310ff432bf919, type: 2}
   - mesh: {fileID: -6695200311951029103, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: -4288583467269203127, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-  - mesh: {fileID: -8261066796910302577, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-    material: {fileID: 2100000, guid: 51cc99d74d8842643bf310ff432bf919, type: 2}
-  - mesh: {fileID: -6695200311951029103, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-    material: {fileID: 2100000, guid: 51cc99d74d8842643bf310ff432bf919, type: 2}
-  - mesh: {fileID: -8261066796910302577, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
-    material: {fileID: 2100000, guid: 3f6291f7bc2930b48ac51561bf391a35, type: 2}
   - mesh: {fileID: -6695200311951029103, guid: 69bc6328b194bfa48acea743d3259028, type: 3}
     material: {fileID: 2100000, guid: 3f6291f7bc2930b48ac51561bf391a35, type: 2}
-  savedVariantIndex: 1
+  savedVariantIndex: 2

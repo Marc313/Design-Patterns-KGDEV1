@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class UICommandHandler<T>
 {
-    private Dictionary<Button, List<IReversibleCommand>> commands;
+    private Dictionary<Button, List<ICommand>> commands;
     private T customizable;
 
     public UICommandHandler(T _customizable)
     {
-        commands = new Dictionary<Button, List<IReversibleCommand>>();
+        commands = new Dictionary<Button, List<ICommand>>();
         customizable = _customizable;
     }
 
@@ -16,7 +16,7 @@ public class UICommandHandler<T>
     {
         if (commands.ContainsKey(button) && commands[button] == null)
         {
-            commands[button] = new List<IReversibleCommand>();
+            commands[button] = new List<ICommand>();
         }
         else if (commands.ContainsKey(button) && commands[button] != null)
         {
@@ -24,20 +24,9 @@ public class UICommandHandler<T>
         }
         else
         {
-            commands.Add(button, new List<IReversibleCommand>());
+            commands.Add(button, new List<ICommand>());
         }
 
         button.onClick.AddListener(() => command.Execute());
     }
-
-    /*private void AddCommandsAsButtonListener()
-    {
-        foreach (Button button in commands.Keys)
-        {
-            foreach (IReversibleCommand<CharacterCustomizable> command in commands[button])
-            {
-                button.onClick.AddListener(() => command.Execute(customizable));
-            }
-        }
-    }*/
 }

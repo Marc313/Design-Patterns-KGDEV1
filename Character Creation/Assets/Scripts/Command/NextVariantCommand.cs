@@ -1,6 +1,6 @@
 public class NextVariantCommand : IReversibleCommand
 {
-    CharacterCustomizable customizable;
+    private CharacterCustomizable customizable;
 
     public NextVariantCommand(CharacterCustomizable _customizable)
     {

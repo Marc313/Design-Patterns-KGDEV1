@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour, ICommandStackOwner<IReversibleCommand>
 {
-    [SerializeField] private CharacterCustomizable[] customizables;
+    public Stack<IReversibleCommand> history { get; private set; } = new Stack<IReversibleCommand>();
 
+    [SerializeField] private CharacterCustomizable[] customizables;
     private InputHandler<ICommand> inputHandler;
 
-    public Stack<IReversibleCommand> history { get; private set; } = new Stack<IReversibleCommand>();
 
     private void Awake()
     {

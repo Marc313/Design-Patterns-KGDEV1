@@ -19,20 +19,20 @@ class CharacterCustomizable {
   - -Meshrenderer renderer
   - -sMeshOptions meshOptions
   - -int currentFeatureIndex
+  - -Button leftbutton
+  - -Button rightButton
+  - -commandStackOwner: ICommandStackOwner<IReversibleCommand>
+  - -commandHandler: UICommandHandler<CharacterCustomizable>
   + +PreviousVariant() : void
   + +NextVariant() : void
   - -ApplyVariant() : void
   - -CheckButtonClick() : void <<event>>
 }
 
-sMeshList *-down- Variant
-CharacterCustomizable *-down- sMeshList
+sMeshList o-down- Variant
+CharacterCustomizable o-down- sMeshList
 
 interface ICommand {
-  + +Execute(): void
-}
-
-interface ICommandGeneric<<Generic>> {
   + +Execute(): void
 }
 
@@ -40,17 +40,25 @@ interface IReversibleCommand {
   + +Undo(): void
 }
 
-interface IReversibleCommandGeneric<<Generic>> {
+interface ICommandStackManager<<T>> {
+  + +history: Stack<T>
   + +Undo(): void
+  + +AddCommandToHistory(): void
 }
 
 ICommand <|.down. IReversibleCommand
-ICommandGeneric <|.down. IReversibleCommandGeneric
+CharacterCustomizable o-- ICommandStackManager
+
 
 class InputHandler {
   - -commands: Dictionary<Keycode, ICommand> 
   + +AddCommand(): void
   + +HandleInput(): ICommand
+}
+
+class UICommandHandler {
+  - -commands: Dictionary<Button, List<IReversibleCommand>>
+  + +AddCommand(): void
 }
 
 class PlayerInput {
@@ -60,14 +68,31 @@ class PlayerInput {
   - -Update(): void
 }
 
-PlayerInput *-left-- InputHandler
+PlayerInput o-right-- InputHandler
+CharacterCustomizable o-- UICommandHandler
 
-class NextVariantCommand<<CharacterCustomizable>> 
-class PreviousVariantCommand<<CharacterCustomizable>> 
-class ChangeSceneCommand 
+class GoToCreatorCommand
+class NextVariantCommand {
+  - -customizable: CharacterCustomizable
+}
+class PreviousVariantCommand {
+  - -customizable: CharacterCustomizable
+}
 
-IReversibleCommandGeneric <|.down. PreviousVariantCommand
-IReversibleCommandGeneric <|.down. NextVariantCommand
+class UndoCommand {
+  - -owner: ICommandStackOwner<IReversibleCommand>
+}
+
+IReversibleCommand <|.down. PreviousVariantCommand
+IReversibleCommand <|.down. NextVariantCommand
+ICommand <|.down. GoToCreatorCommand
+ICommand <|.down. UndoCommand
+
+CharacterCustomizable <.up. NextVariantCommand
+CharacterCustomizable <.up. PreviousVariantCommand
+CharacterManager <.up. UndoCommand
+
+PlayerInput <.. GoToCreatorCommand
 
 class EventSystem<<static>> {
   + +EventName: enum
@@ -76,5 +101,37 @@ class EventSystem<<static>> {
   + +Unsubscribe(): void
   + +RaiseEvent(): void
 }
+
+class UIObserver {
+  - -Button triggerButton
+  - -CharacterDone(): void
+}
+
+class CreatorManager {
+  + +Direction: enum
+  - -OnEnable(): void
+  - -OnDisable(): void
+  + +LoadNextScene(): void <<event>>
+}
+
+EventSystem <.up. UIObserver
+EventSystem <.down. CreatorManager
+EventSystem <.left. CharacterCustomizable
+
+
+class CharacterManager {
+  + +history: Stack<IReversibleCommand>
+  - -customizables: CharacterCustomizable[]
+  - -inputHandler: InputHandler<ICommand>
+  - -Awake(): void
+  - -Start(): void
+  - -Update(): void
+   /Undo(): void
+  + +AddCommandToHistory(): void
+  - -InjectSelfOnCustomizables(): void
+}
+
+CharacterManager <|. ICommandStackManager
+CharacterManager o-- InputHandler
 
 @enduml
