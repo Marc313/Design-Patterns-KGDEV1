@@ -12,11 +12,11 @@ public class UIObserver : MonoBehaviour
 
     public void PijltjeClicked()
     {
-        EventSystem.RaiseEvent(EventSystem.EventName.BUTTON_CLICK, button);
+        //EventSystem.RaiseEvent(EventSystem.EventName.BUTTON_CLICK, button);
     }
 
     public void SectionDoneClicked()
     {
-        EventSystem.RaiseEvent(EventSystem.EventName.CHARACTER_DONE, button);
+        //EventSystem.RaiseEvent(EventSystem.EventName.CHARACTER_DONE, button);
     }
 }

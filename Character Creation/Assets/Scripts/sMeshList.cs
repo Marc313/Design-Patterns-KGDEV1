@@ -5,5 +5,5 @@ using UnityEngine;
 public class sMeshList : ScriptableObject
 {
     public List<Variant> variants;
-    public int savedVariantIndex;
+    [Min(0)] public int savedVariantIndex;
 }

@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputHandler
+public class InputHandler<T>
 {
-    Dictionary<KeyCode, ICommand> commands = new Dictionary<KeyCode, ICommand>();
+    private Dictionary<KeyCode, T> commands = new Dictionary<KeyCode, T>();
 
-    public void AddCommand(KeyCode key, ICommand command)
+    public void AddCommand(KeyCode key, T command)
     {
         commands.Add(key, command);
     }
 
-    public ICommand HandleInput()
+    public T HandleInput()
     {
         foreach (KeyCode key in commands.Keys)
         {
             if (Input.GetKeyDown(key)) { return commands[key]; }
         }
-        return null;
+        return default(T);
     }
 }

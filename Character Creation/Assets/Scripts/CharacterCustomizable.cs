@@ -1,33 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterCustomizable : MonoBehaviour
+public class CharacterCustomizable : MonoBehaviour, ICommandStackOwner<IReversibleCommand<CharacterCustomizable>>
 {
-    public sMeshList meshList;
+    public enum Direction { Next, Previous };
+    public Stack<IReversibleCommand<CharacterCustomizable>> history { get; private set; }
 
-    //private GameObject UISet;
+    [SerializeField] private sMeshList meshList;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
-    //private Image leftDisplay;
-    //private Image rightDisplay;
 
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private int currentMeshIndex;
     private Variant currentVariant;
-
-    public enum Direction { Next, Previous};
+    private UICommandHandler<CharacterCustomizable> commandHandler;
+    private InputHandler<ICommand<CharacterCustomizable>> inputHandler;
 
     private void Awake()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
+
+        commandHandler = new UICommandHandler<CharacterCustomizable>(this);
+
+        history = new Stack<IReversibleCommand<CharacterCustomizable>>();
+        inputHandler = new InputHandler<ICommand<CharacterCustomizable>>();
     }
 
     private void Start()
     {
         //ParseUI();
         LoadSavedVariant();
+
+        commandHandler.AddCommand(leftButton, new PreviousVariantCommand());
+        commandHandler.AddCommand(rightButton, new NextVariantCommand());
+        inputHandler.AddCommand(KeyCode.U, new UndoCommand<CharacterCustomizable>(this));
+    }
+
+    private void Update()
+    {
+        ICommand<CharacterCustomizable> command = inputHandler.HandleInput();
+        command?.Execute(this);
     }
 
     private void LoadSavedVariant()
@@ -36,19 +51,6 @@ public class CharacterCustomizable : MonoBehaviour
         Variant savedVariant = meshList.variants[savedVariantIndex];
         UpdateVariantModelAndMaterial(savedVariant);
     }
-
-    /*private void OnEnable()
-    {
-        //ParseUI();
-        leftButton?.onClick.AddListener(previousVariants);
-        rightButton?.onClick.AddListener(nextVariants);
-    }
-
-    private void OnDisable()
-    {
-        leftButton?.onClick.RemoveListener(previousVariants);
-        rightButton?.onClick.RemoveListener(nextVariants);
-    }*/
 
     private void OnEnable()
     {
@@ -64,24 +66,21 @@ public class CharacterCustomizable : MonoBehaviour
 
     public void PreviousVariants()
     {
+        history.Push(new PreviousVariantCommand());
         SwitchVariant(Direction.Previous);
     }
 
     public void NextVariants()
     {
+        history.Push(new NextVariantCommand());
         SwitchVariant(Direction.Next);
     }
 
-    private void CheckButtonClick(EventSystem.EventName eventName, object _button)
+    public void Undo()
     {
-        if (_button.Equals(leftButton))
-        {
-            PreviousVariants();
-        } 
-        else if (_button.Equals(rightButton))
-        {
-            NextVariants();
-        }
+        IReversibleCommand<CharacterCustomizable> command = history.Pop();
+        command.Undo(this);
+        // Push to redo stack
     }
 
     private void SwitchVariant(Direction direction)
@@ -96,25 +95,34 @@ public class CharacterCustomizable : MonoBehaviour
         UpdateVariantModelAndMaterial(currentVariant);
     }
 
+    private void CheckButtonClick(EventSystem.EventName eventName, object _button)
+    {
+        if (_button.Equals(leftButton))
+        {
+            PreviousVariants();
+        }
+        else if (_button.Equals(rightButton))
+        {
+            NextVariants();
+        }
+    }
+
     public void UpdateVariantModelAndMaterial(Variant _variant)
     {
         meshFilter.mesh = _variant.mesh;
         meshRenderer.material = _variant.material;
-
-        //UpdateUISet();
     }
 
     private void ApplyVariant(EventSystem.EventName eventName, object _object)
     {
         meshList.savedVariantIndex = currentMeshIndex;
-        //Character.SaveFeature(this, currentVariant);
     }
 
-    public void LoadVariant(Variant _variant)
+    /*public void LoadVariant(Variant _variant)
     {
         currentVariant = _variant;
         UpdateVariantModelAndMaterial(_variant);
-    }
+    }*/
 
     /*private void ParseUI()
     {

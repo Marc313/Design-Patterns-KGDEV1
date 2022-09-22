@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    private InputHandler inputHandler;
+    private InputHandler<ICommand> inputHandler;
 
     private void Awake()
     {
-        inputHandler = new InputHandler();
+        inputHandler = new InputHandler<ICommand>();
     }
 
     void Start()

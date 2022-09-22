@@ -2,43 +2,79 @@
 
 title Character Creator
 
-class CharacterCustomizable {
-  MeshFilter filter
-  Meshrenderer renderer
-  sMeshOptions meshOptions
-  int currentFeatureIndex
-  +void UpdateMesh()
-}
-
-class sMeshOptions {
-Scriptable Object
-Mesh[] meshes
-Later maybe Models
-}
-
 struct Variant {
 Mesh mesh
 Material material
-Image logo
 }
 
-class CharacterData {
-  Variant Hair;
-  Variant Shirt;
-  Variant Pants;
+class sMeshList {
+Scriptable Object
+--
+Variant[] variants
+int savedVariantIndex;
 }
 
-class Character {
-  CharacterData;
+class CharacterCustomizable {
+  - -MeshFilter filter
+  - -Meshrenderer renderer
+  - -sMeshOptions meshOptions
+  - -int currentFeatureIndex
+  + +PreviousVariant() : void
+  + +NextVariant() : void
+  - -ApplyVariant() : void
+  - -CheckButtonClick() : void <<event>>
 }
 
-interface IFactory
-class CharacterFactory 
+sMeshList *-down- Variant
+CharacterCustomizable *-down- sMeshList
 
-Variant *-right-- sMeshOptions
-sMeshOptions *-right-- CharacterCustomizable
-CharacterData *-right-- Character
-Character *-down-- CharacterFactory: Creates
-CharacterFactory *-left-- IFactory
+interface ICommand {
+  + +Execute(): void
+}
+
+interface ICommandGeneric<<Generic>> {
+  + +Execute(): void
+}
+
+interface IReversibleCommand {
+  + +Undo(): void
+}
+
+interface IReversibleCommandGeneric<<Generic>> {
+  + +Undo(): void
+}
+
+ICommand <|.down. IReversibleCommand
+ICommandGeneric <|.down. IReversibleCommandGeneric
+
+class InputHandler {
+  - -commands: Dictionary<Keycode, ICommand> 
+  + +AddCommand(): void
+  + +HandleInput(): ICommand
+}
+
+class PlayerInput {
+  - -inputHandler: InputHandler
+  - -Awake(): void
+  - -Start(): void
+  - -Update(): void
+}
+
+PlayerInput *-left-- InputHandler
+
+class NextVariantCommand<<CharacterCustomizable>> 
+class PreviousVariantCommand<<CharacterCustomizable>> 
+class ChangeSceneCommand 
+
+IReversibleCommandGeneric <|.down. PreviousVariantCommand
+IReversibleCommandGeneric <|.down. NextVariantCommand
+
+class EventSystem<<static>> {
+  + +EventName: enum
+  - -eventRegister: Dictionary<EventName, List<EventCallback>> 
+  + +Subscribe(): void
+  + +Unsubscribe(): void
+  + +RaiseEvent(): void
+}
 
 @enduml
