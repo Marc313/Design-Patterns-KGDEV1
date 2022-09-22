@@ -83,6 +83,7 @@ public class CharacterCustomizable : MonoBehaviour
     private void LoadSavedVariant()
     {
         int savedVariantIndex = meshList.savedVariantIndex;
+        currentMeshIndex = savedVariantIndex;
         Variant savedVariant = meshList.variants[savedVariantIndex];
         UpdateVariantModelAndMaterial(savedVariant);
     }
